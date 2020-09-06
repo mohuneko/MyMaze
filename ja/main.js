@@ -2,15 +2,17 @@
 
 (() => {
   class Maze {
-    constructor(canvas) {
+    constructor(row, col, canvas) {
       this.ctx = canvas.getContext('2d');
+      this.row = row;
+      this.col = col;
       this.data = this.getData();
     }
 
     getData() {
       const data = [];
 
-      for (let row = 0; row < 9; row++) {
+      for (let row = 0; row < this.row; row++) {
         data[row] = [];
         for (let col = 0; col < 7; col++) {
           data[row][col] = 1;
@@ -34,7 +36,10 @@
           let destRow;
           let destCol;
 
-          const dir = Math.floor(Math.random() * 4);
+          do {
+            const dir = row === 2 ?
+            Math.floor(Math.random() * 4) :
+            Math.floor(Math.random() * 3) + 1;
           switch (dir) {
             case 0: //up
               destRow = row - 1;
@@ -53,6 +58,9 @@
               destCol = col + 1;
               break;
           }
+          } while (data[destRow][destCol] === 1);
+
+          data[destRow][destCol] = 1;
         }
       }
 
@@ -75,7 +83,7 @@
     return;
   }
 
-  const maze = new Maze(canvas);
+  const maze = new Maze(5, 9, canvas);
   maze.render();
 })();
 
