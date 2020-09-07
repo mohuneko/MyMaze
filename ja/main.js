@@ -1,3 +1,4 @@
+//maze
 'use strict';
 
 (() => {
