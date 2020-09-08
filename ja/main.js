@@ -20,20 +20,20 @@
         }
       }
 
-      for (let row = 1; row < 9 - 1; row++) {
-        for (let col = 1; col < 7 -1; col++) {
+      for (let row = 1; row < this.row - 1; row++) {
+        for (let col = 1; col < this.col -1; col++) {
           data[row][col] = 0;
         }
       }
 
-      for (let row = 2; row < 9 - 2; row+= 2) {
-        for (let col = 2; col < 7 -2; col+= 2) {
+      for (let row = 2; row < this.row - 2; row+= 2) {
+        for (let col = 2; col < this.col -2; col+= 2) {
           data[row][col] = 1;
         }
       }
 
-      for (let row = 2; row < 9 - 2; row+= 2) {
-        for (let col = 2; col < 7 -2; col+= 2) {
+      for (let row = 2; row < this.row - 2; row+= 2) {
+        for (let col = 2; col < this.col -2; col+= 2) {
           let destRow;
           let destCol;
 
