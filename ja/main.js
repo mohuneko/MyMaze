@@ -2,9 +2,39 @@
 'use strict';
 
 (() => {
-  class Maze {
-    constructor(row, col, canvas) {
+
+  class MazeRenderer {
+    constructor(canvas) {
       this.ctx = canvas.getContext('2d');
+      this.WALL_SIZE = 10;
+    }
+
+    render(data) {
+      canvas.height = data.length * this.WALL_SIZE;
+      canvas.width = data[0].length * this.WALL_SIZE;
+
+      for (let row = 0; row < data.length; row++) {
+        for (let col = 0; col < data[0].length; col++) {
+          if (data[row][col] === 1) {
+            this.ctx.fillRect(
+               col * this.WALL_SIZE,
+               row * this.WALL_SIZE,
+               this.WALL_SIZE,
+               this.WALL_SIZE
+               );
+          }
+        }
+      }
+    }
+  }
+  class Maze {
+    constructor(row, col, renderer) {
+      if (row < 5 || col < 5 || row % 2 === 0 || col % 2 === 0) {
+        alert('Size not valid!');
+        return;
+      }
+
+      this.renderer = renderer;
       this.row = row;
       this.col = col;
       this.data = this.getData();
@@ -15,7 +45,7 @@
 
       for (let row = 0; row < this.row; row++) {
         data[row] = [];
-        for (let col = 0; col < 7; col++) {
+        for (let col = 0; col < this.col; col++) {
           data[row][col] = 1;
         }
       }
@@ -26,14 +56,14 @@
         }
       }
 
-      for (let row = 2; row < this.row - 2; row+= 2) {
-        for (let col = 2; col < this.col -2; col+= 2) {
+      for (let row = 2; row < this.row - 2; row += 2) {
+        for (let col = 2; col < this.col -2; col += 2) {
           data[row][col] = 1;
         }
       }
 
-      for (let row = 2; row < this.row - 2; row+= 2) {
-        for (let col = 2; col < this.col -2; col+= 2) {
+      for (let row = 2; row < this.row - 2; row += 2) {
+        for (let col = 2; col < this.col -2; col += 2) {
           let destRow;
           let destCol;
 
@@ -69,13 +99,7 @@
     }
 
     render() {
-      for (let row = 0; row < this.data.length; row++) {
-        for (let col = 0; col < this.data[row].length; col++) {
-          if (this.data[row][col] === 1) {
-            this.ctx.fillRect(col * 10, row * 10, 10, 10);
-          }
-        }
-      }
+      this.renderer.render(this.data);
     }
   }
 
@@ -84,7 +108,7 @@
     return;
   }
 
-  const maze = new Maze(5, 9, canvas);
+  const maze = new Maze(21, 15, new MazeRenderer(canvas));
   maze.render();
 })();
 
